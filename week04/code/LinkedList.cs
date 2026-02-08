@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class LinkedList<T> : IEnumerable<T>
 {
-    private Node _head;
-    private Node _tail;
+    private Node? _head;
+    private Node? _tail;
     private int _count;
 
     private class Node
     {
         public T Value;
-        public Node Next;
+        public Node? Next;
 
         public Node(T value)
         {
@@ -22,9 +22,7 @@ public class LinkedList<T> : IEnumerable<T>
 
     public int Count => _count;
 
-    // -----------------------------
-    // INSERT HEAD (already provided idea)
-    // -----------------------------
+    // Insert at head
     public void InsertHead(T value)
     {
         Node newNode = new Node(value);
@@ -43,10 +41,7 @@ public class LinkedList<T> : IEnumerable<T>
         _count++;
     }
 
-    // -----------------------------
-    // INSERT TAIL (REQUIRED)
-    // O(1)
-    // -----------------------------
+    // Insert at tail
     public void InsertTail(T value)
     {
         Node newNode = new Node(value);
@@ -65,9 +60,7 @@ public class LinkedList<T> : IEnumerable<T>
         _count++;
     }
 
-    // -----------------------------
-    // REMOVE HEAD (already provided idea)
-    // -----------------------------
+    // Remove head
     public void RemoveHead()
     {
         if (_head == null)
@@ -80,10 +73,7 @@ public class LinkedList<T> : IEnumerable<T>
             _tail = null;
     }
 
-    // -----------------------------
-    // REMOVE TAIL (REQUIRED)
-    // O(n)
-    // -----------------------------
+    // Remove tail
     public void RemoveTail()
     {
         if (_head == null)
@@ -100,7 +90,7 @@ public class LinkedList<T> : IEnumerable<T>
 
             while (current.Next != _tail)
             {
-                current = current.Next;
+                current = current.Next!;
             }
 
             current.Next = null;
@@ -110,16 +100,13 @@ public class LinkedList<T> : IEnumerable<T>
         _count--;
     }
 
-    // -----------------------------
-    // REMOVE FIRST MATCH (REQUIRED)
-    // O(n)
-    // -----------------------------
+    // Remove first matching value
     public void Remove(T value)
     {
         if (_head == null)
             return;
 
-        if (_head.Value.Equals(value))
+        if (_head.Value!.Equals(value))
         {
             RemoveHead();
             return;
@@ -129,7 +116,7 @@ public class LinkedList<T> : IEnumerable<T>
 
         while (current.Next != null)
         {
-            if (current.Next.Value.Equals(value))
+            if (current.Next.Value!.Equals(value))
             {
                 if (current.Next == _tail)
                 {
@@ -140,38 +127,31 @@ public class LinkedList<T> : IEnumerable<T>
                     current.Next = current.Next.Next;
                     _count--;
                 }
-                return; // stop after first removal
+                return;
             }
 
             current = current.Next;
         }
     }
 
-    // -----------------------------
-    // REPLACE ALL MATCHES (REQUIRED)
-    // O(n)
-    // -----------------------------
+    // Replace all matches
     public void Replace(T oldValue, T newValue)
     {
-        Node current = _head;
+        Node? current = _head;
 
         while (current != null)
         {
-            if (current.Value.Equals(oldValue))
-            {
+            if (current.Value!.Equals(oldValue))
                 current.Value = newValue;
-            }
 
             current = current.Next;
         }
     }
 
-    // -----------------------------
-    // FORWARD ITERATOR (REQUIRED)
-    // -----------------------------
+    // Forward iterator
     public IEnumerator<T> GetEnumerator()
     {
-        Node current = _head;
+        Node? current = _head;
 
         while (current != null)
         {
@@ -185,14 +165,11 @@ public class LinkedList<T> : IEnumerable<T>
         return GetEnumerator();
     }
 
-    // -----------------------------
-    // REVERSE ITERATOR (REQUIRED)
-    // O(n)
-    // -----------------------------
+    // Reverse iterator
     public IEnumerable<T> Reverse()
     {
         Stack<T> stack = new Stack<T>();
-        Node current = _head;
+        Node? current = _head;
 
         while (current != null)
         {
