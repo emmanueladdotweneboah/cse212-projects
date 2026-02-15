@@ -6,16 +6,13 @@ public static class Recursion
     /// # Problem 1 #
     /// #############
     /// Using recursion, find the sum of 1^2 + 2^2 + 3^2 + ... + n^2
-    /// and return it.
     /// If n <= 0 return 0.
     /// </summary>
     public static int SumSquaresRecursive(int n)
     {
-        // Base case
         if (n <= 0)
             return 0;
 
-        // Recursive case
         return n * n + SumSquaresRecursive(n - 1);
     }
 
@@ -27,7 +24,6 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // Base case
         if (word.Length == size)
         {
             results.Add(word);
@@ -52,17 +48,14 @@ public static class Recursion
         if (remember == null)
             remember = new Dictionary<int, decimal>();
 
-        // Base Cases
         if (s == 0) return 0;
         if (s == 1) return 1;
         if (s == 2) return 2;
         if (s == 3) return 4;
 
-        // Check memo
         if (remember.ContainsKey(s))
             return remember[s];
 
-        // Recursive solution
         decimal ways =
             CountWaysToClimb(s - 1, remember) +
             CountWaysToClimb(s - 2, remember) +
@@ -83,18 +76,15 @@ public static class Recursion
     {
         int index = pattern.IndexOf('*');
 
-        // Base case: no wildcard
         if (index == -1)
         {
             results.Add(pattern);
             return;
         }
 
-        // Replace with 0
         string withZero = pattern.Substring(0, index) + "0" + pattern[(index + 1)..];
         WildcardBinary(withZero, results);
 
-        // Replace with 1
         string withOne = pattern.Substring(0, index) + "1" + pattern[(index + 1)..];
         WildcardBinary(withOne, results);
     }
@@ -112,14 +102,12 @@ public static class Recursion
             currPath = new List<ValueTuple<int, int>>();
         }
 
-        // Check valid move
-        if (!maze.IsValidMove(x, y, currPath))
+        // FIXED PARAMETER ORDER HERE
+        if (!maze.IsValidMove(currPath, x, y))
             return;
 
-        // Add current position
         currPath.Add((x, y));
 
-        // Check if end
         if (maze.IsEnd(x, y))
         {
             results.Add(currPath.AsString());
@@ -127,7 +115,7 @@ public static class Recursion
             return;
         }
 
-        // Explore 4 directions
+        // Explore all directions
         SolveMaze(results, maze, x + 1, y, currPath);
         SolveMaze(results, maze, x - 1, y, currPath);
         SolveMaze(results, maze, x, y + 1, currPath);
